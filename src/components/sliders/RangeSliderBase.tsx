@@ -9,9 +9,10 @@ type Props = {
   min: number
   max: number
   step?: number
-  formatValueLabel: (val: number) => string
+  formatValueLabel: (val: number, index: number) => string | React.ReactNode
   labels?: string[]
 }
+
 
 const RangeSliderBase: React.FC<Props> = ({
   title,
@@ -41,17 +42,18 @@ const RangeSliderBase: React.FC<Props> = ({
         step={step}
         disableSwap={false}
         valueLabelDisplay="on"
-        valueLabelFormat={formatValueLabel}
+        valueLabelFormat={(val, i) => formatValueLabel(val as number, i)}
+        
         sx={{
-          color: '#1677ff',
+          color: '#5cadea',
           height: 8,
           '& .MuiSlider-thumb': {
-            height: 24,
-            width: 24,
+            height: 22,
+            width: 22,
             backgroundColor: '#fff',
-            border: '4px solid #1677ff',
+            border: '5.5px solid #5cadea',
             '&:hover': {
-              boxShadow: '0 0 0 8px rgba(22, 119, 255, 0.16)',
+              boxShadow: '0 0 0 8px rgba(164, 192, 232, 0.16)',
             },
           },
           '& .MuiSlider-track': {
@@ -59,7 +61,7 @@ const RangeSliderBase: React.FC<Props> = ({
           },
           '& .MuiSlider-rail': {
             opacity: 0.3,
-            backgroundColor: '#ddd',
+            backgroundColor: '#fff',
           },
         }}
         slotProps={{

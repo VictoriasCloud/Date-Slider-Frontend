@@ -17,8 +17,9 @@ export type MonthItem = {
           month: 'short',
         })
   
-        // Убираем точки из сокращений, потому что выглядит некрасиво
-        label = label.replace('.', '')
+        // Убираем точки из сокращений, потому что выглядит некрасиво(не убирается, разобраться с этим)
+        label = label.replace(/\./g, '')
+
   
         months.push({
           label: `${label}`,

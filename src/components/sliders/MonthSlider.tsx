@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
 import RangeSliderBase from './RangeSliderBase'
 import { MonthItem } from '../../utils/dateUtils'
+import { formatMonthYearMultiLine } from '../../utils/formatDateLabel'
 
 type Props = {
   yearRange: [number, number]
@@ -13,10 +14,12 @@ type Props = {
 }
 
 const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, labels, mode }) => {
-  const getDateLabel = (index: number): string => {
+  const getDateLabel = (index: number): React.ReactNode => {
     const year = yearRange[0] + Math.floor(index / 12)
     const month = index % 12
-    return dayjs(`${year}-${month + 1}-01`).locale('ru').format('MMMM YYYY')
+    const dateObj = new Date(year, month, 1)
+    // общее форматирование в аппер кейс
+    return formatMonthYearMultiLine(dateObj)
   }
 
   const allMonths: MonthItem[] = React.useMemo(() => {
@@ -32,13 +35,12 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, labels, mode
           year,
           month,
           index: index++,
-          isYearStart: month === 0
+          isYearStart: month === 0,
         })
       }
     }
     return months
   }, [yearRange])
-  
 
   const visibleLabels = mode === 'month'
     ? allMonths.map((m) => m.label)
@@ -52,6 +54,7 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, labels, mode
       min={0}
       max={labels.length - 1}
       step={1}
+      // вместо string лучше возвратить React-элемент
       formatValueLabel={getDateLabel}
       labels={visibleLabels}
     />

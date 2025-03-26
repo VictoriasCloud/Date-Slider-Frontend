@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { Box } from '@mui/material'
-import ModeToggle from './ModeToggle'
-import YearSlider from './sliders/YearSlider'
-import MonthSlider from './sliders/MonthSlider'
-import { generateMonths, MonthItem } from '../utils/dateUtils'
+import ModeToggle from '../ModeToggle'
+import YearSlider from '../sliders/YearSlider'
+import MonthSlider from '../sliders/MonthSlider'
+import { generateMonths, MonthItem } from '../../utils/dateUtils'
 
 const DateSliderContainer: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -48,11 +48,7 @@ const DateSliderContainer: React.FC = () => {
         m.month === selectedRange[1].getMonth() &&
         m.year === selectedRange[1].getFullYear()
     )
-  
-    return [
-      startIndex !== -1 ? startIndex : 0,
-      endIndex !== -1 ? endIndex : months.length - 1,
-    ]
+    return [startIndex, endIndex]
   }
 
   const setFromMonthIndexes = (indexes: [number, number]) => {
@@ -64,8 +60,8 @@ const DateSliderContainer: React.FC = () => {
 
   const setFromYearRange = (years: [number, number]) => {
     setSelectedRange([
-      new Date(years[0], selectedRange[0].getMonth(), 1),
-      new Date(years[1], selectedRange[1].getMonth(), 1), 
+      new Date(years[0], 0, 1),
+      new Date(years[1], 0, 1),
     ])
   }
 

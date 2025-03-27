@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { Box } from '@mui/material'
+import { Box, TextField } from '@mui/material'
 import ModeToggle from './ModeToggle'
 import YearSlider from './sliders/YearSlider'
 import MonthSlider from './sliders/MonthSlider'
@@ -12,6 +12,9 @@ import { generateMonths, MonthItem } from '../utils/dateUtils'
 const DateSliderContainer: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [mode, setMode] = useState<'year' | 'month'>('year')
+
+  const [minYearState, setMinYearState] = useState<number>(2014)
+  const [maxYearState, setMaxYearState] = useState<number>(2021)
 
   const [selectedRange, setSelectedRange] = useState<[Date, Date]>(() => {
     const stored = localStorage.getItem('selectedRange')
@@ -29,15 +32,41 @@ const DateSliderContainer: React.FC = () => {
     )
   }, [selectedRange])
 
+  useEffect(() => {
+    const [start, end] = selectedRange
+    const startYear = start.getFullYear()
+    const endYear = end.getFullYear()
+
+    // если новый minYearState > startYear, сместим startRange 
+    let clampedStartYear = Math.max(startYear, minYearState)
+    let clampedEndYear = Math.min(endYear, maxYearState)
+
+    // Если пользователь ввёл границы так, что minYearState > maxYearState, 
+    if (clampedStartYear > clampedEndYear) {
+      // Можем их выровнять:
+      clampedStartYear = clampedEndYear
+    }
+
+    // Если что-то реально изменилось, обновляем state:
+    if (clampedStartYear !== startYear || clampedEndYear !== endYear) {
+      setSelectedRange([
+        new Date(clampedStartYear, start.getMonth(), 1),
+        new Date(clampedEndYear, end.getMonth(), 1),
+      ])
+    }
+  }, [minYearState, maxYearState, selectedRange])
+
+  // Получаем текущие года (startYear, endYear) из selectedRange
   const getYearRange = (): [number, number] => [
     selectedRange[0].getFullYear(),
     selectedRange[1].getFullYear(),
   ]
 
   const months: MonthItem[] = useMemo(() => {
-    const [startYear, endYear] = getYearRange()
-    return generateMonths(startYear, endYear)
-  }, [selectedRange])
+    const startY = minYearState
+    const endY = maxYearState
+    return generateMonths(startY, endY)
+  }, [minYearState, maxYearState])
 
   const labels = months.map((m) => m.label)
 
@@ -76,10 +105,10 @@ const DateSliderContainer: React.FC = () => {
     ])
   }
 
-  // Колесо мыши переключает режим (год/месяц), если курсор внутри containerRef
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (!containerRef.current?.contains(e.target as Node)) return
+      // e.deltaY > 0 => крутим вниз => month
       setMode(e.deltaY > 0 ? 'month' : 'year')
     }
 
@@ -92,50 +121,60 @@ const DateSliderContainer: React.FC = () => {
       ref={containerRef}
       sx={{
         display: 'flex',
-        alignItems: 'center',
+        flexDirection: 'column',
+        gap: 2,
         width: '100%',
-        gap: 4,
       }}
     >
+      <Box sx={{ display: 'flex', gap: 2 }}>
+        <TextField
+          label="Минимальный год"
+          type="number"
+          value={minYearState}
+          onChange={(e) => setMinYearState(Number(e.target.value))}
+          sx={{ width: '150px' }}
+        />
+        <TextField
+          label="Максимальный год"
+          type="number"
+          value={maxYearState}
+          onChange={(e) => setMaxYearState(Number(e.target.value))}
+          sx={{ width: '150px' }}
+        />
+      </Box>
+
       <ModeToggle value={mode} onChange={setMode} />
 
       <Box
         sx={{
-          // Этот блок растягивается, и если содержимое шире, появляется scroll
           flexGrow: 1,
-          overflowX: 'auto',     
+          overflowX: 'auto',
           whiteSpace: 'nowrap',
-          padding: '1rem 0',
-          width: '100%',
-          paddingLeft: '2rem',
-          paddingRight: '4rem',
-          paddingTop: '3rem',
+          paddingTop: '2rem',
           paddingBottom: '1rem',
           '&::-webkit-scrollbar': {
-            height: '25px',
+            height: '10px',
           },
           '&::-webkit-scrollbar-thumb': {
-            backgroundColor: '#fff',
+            backgroundColor: '#ccc',
             borderRadius: '5px',
-          },
-          '&::-webkit-scrollbar-track': {
-            backgroundColor: '#f0f0f0',
           },
         }}
       >
         <Box
           sx={{
-            // Растягиваем дочерний контейнер на 100%, 
-            // чтобы RangeSliderBase мог занять всё 
             display: 'flex',
             flexGrow: 1,
             width: '100%',
+            ml: '3rem',
+            mr: 'rem',
+
           }}
         >
           {mode === 'year' ? (
             <YearSlider
-              minYear={2014}
-              maxYear={2021}
+              minYear={minYearState}
+              maxYear={maxYearState}
               value={getYearRange()}
               onChange={setFromYearRange}
               selectedDates={selectedRange}
@@ -143,7 +182,7 @@ const DateSliderContainer: React.FC = () => {
           ) : (
             <MonthSlider
               mode={mode}
-              yearRange={getYearRange()}
+              yearRange={[minYearState, maxYearState]}
               value={getMonthIndexes()}
               onChange={setFromMonthIndexes}
               labels={labels}

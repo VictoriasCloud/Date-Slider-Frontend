@@ -45,6 +45,7 @@ const YearSlider: React.FC<Props> = ({
         flexGrow: 1,
         // можем здесь ограничить minWidth / maxWidth теперь это ограничивает RangeSliderBase
         marginBottom: '3rem',
+        marginRight: '10rem',
       }}
     >
       <RangeSliderBase

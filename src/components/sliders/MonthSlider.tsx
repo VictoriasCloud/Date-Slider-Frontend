@@ -71,7 +71,7 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, mode }) => {
         flexGrow: 1,
       }}
     >
-      <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '1rem',  }}>
         {getDateLabel(value[0])}
       </div>
 
@@ -86,7 +86,8 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, mode }) => {
         labels={visibleLabels}
       />
 
-      <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+      <div style={{ textAlign: 'center', marginTop: '1rem', marginRight: '',}}>
+        
         {getDateLabel(value[1])}
       </div>
     </div>

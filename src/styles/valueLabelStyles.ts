@@ -8,6 +8,8 @@ export const valueLabelProps: any = {
       padding: '4px 8px',
       fontSize: '0.85rem',
       position: 'relative',
+      textAlign: 'center',
+      whiteSpace: 'normal',
       '&::after': {
         content: '""',
         position: 'absolute',

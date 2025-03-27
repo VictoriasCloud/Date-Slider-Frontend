@@ -3,8 +3,8 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
 
 /*Возвращает React-элемент из двух строк:
-  1) Название месяца (с заглавной буквы)
-  2) Год
+  Название месяца (с заглавной буквы),
+  год
  */
 export function formatMonthYearMultiLine(date: Date): React.ReactNode {
   const day = dayjs(date).locale('ru')

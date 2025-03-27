@@ -13,7 +13,7 @@ type Props = {
   mode: 'year' | 'month'
 }
 
-const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, mode }) => {
+const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange}) => {
   // Здесь генерим список всех месяцев внутри [yearRange[0]..yearRange[1]]
   const allMonths: MonthItem[] = React.useMemo(() => {
     const months: MonthItem[] = []
@@ -23,7 +23,7 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, mode }) => {
         const label =
           month === 0
             ? year.toString()
-            : dayjs(`${year}-${month + 1}-01`).locale('ru').format('MMM')
+            : dayjs(`${year}-${month + 1}-01`).locale('ru').format('MMM').slice(0, 3)
         months.push({
           label,
           year,
@@ -47,14 +47,14 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, mode }) => {
   const visibleLabels = React.useMemo(() => {
     const totalYears = yearRange[1] - yearRange[0] + 1
   
-    if (totalYears <= 2) {
+    if (totalYears <= 3) {
       // Если диапазон 2 года или меньше, показываем все месяцва
       return allMonths.map((m) =>
         m.month === 0 ? m.year.toString() : m.label
       )
     }
   
-    if (totalYears >= 3 && totalYears <= 7) {
+    if (totalYears >= 4 && totalYears <= 7) {
       // Если д-н от 3 до 7, показываем янв, апр, июль, окт
       return allMonths
         .filter((m) => m.month === 0 || m.month === 3 || m.month === 6 || m.month === 9)
@@ -72,10 +72,12 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, mode }) => {
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
+        marginTop: 'rem',
+        
       }}
     >
       <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
-        {getDateLabel(value[0])}
+        {}
       </div>
 
       <RangeSliderBase
@@ -89,8 +91,8 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, mode }) => {
         labels={visibleLabels}
       />
 
-      <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-        {getDateLabel(value[1])}
+      <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+        {}
       </div>
     </div>
   )

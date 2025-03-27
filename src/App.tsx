@@ -22,7 +22,7 @@ const App = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '2rem',
+        padding: '1rem',
         boxSizing: 'border-box',
       }}
     >

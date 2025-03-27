@@ -38,10 +38,13 @@ const DateSliderContainer: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         width: '100%',
-        gap: 4,
+        gap: 2,
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Box sx={{ display: 'flex', 
+        flexDirection: 'column', 
+        gap: 2 ,
+        }}>
         <ModeToggle value={mode} onChange={setMode} />
 
         <MinMaxYearInput
@@ -61,7 +64,7 @@ const DateSliderContainer: React.FC = () => {
           whiteSpace: 'nowrap',
           padding: '1rem 0',
           width: '100%',
-          paddingLeft: '2rem',
+          paddingLeft: '',
           paddingRight: '4rem',
           paddingTop: '3rem',
           paddingBottom: '1rem',
@@ -77,33 +80,33 @@ const DateSliderContainer: React.FC = () => {
           },
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexGrow: 1,
-            width: '100%',
-          }}
-        >
-          {mode === 'year' ? (
-            <YearSlider
-              // Ограничения для годового слайдера:
-              minYear={globalMinYear}
-              maxYear={globalMaxYear}
-              //поддиапазон из годов
-              value={getYearRange()}
-              onChange={setFromYearRange}
-              selectedDates={selectedRange}
-            />
-          ) : (
-            <MonthSlider
-              mode={mode}
-              yearRange={getYearRange()}
-              value={getMonthIndexes()}
-              onChange={setFromMonthIndexes}
-              labels={labels}
-            />
-          )}
-        </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexGrow: 1,
+          width: '100%',
+        }}
+      >
+        {mode === 'year' ? (
+          <YearSlider
+            // Ограничения для годового слайдера:
+            minYear={globalMinYear}
+            maxYear={globalMaxYear}
+            //поддиапазон из годов
+            value={getYearRange()}
+            onChange={setFromYearRange}
+            selectedDates={selectedRange}
+          />
+        ) : (
+          <MonthSlider
+            mode={mode}
+            yearRange={getYearRange()}
+            value={getMonthIndexes()}
+            onChange={setFromMonthIndexes}
+            labels={labels}
+          />
+        )}
+      </Box>
       </Box>
     </Box>
   )

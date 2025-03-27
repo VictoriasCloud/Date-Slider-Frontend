@@ -66,6 +66,8 @@ const RangeSliderBase: React.FC<Props> = ({
             color: '#5cadea',
             width: '100%', // Пока растянем слайдерна всю ширину  контейнера
             height: 8,
+            marginLeft: '35px',
+            marginRight: '25px',
             '& .MuiSlider-thumb': {
               height: 22,
               width: 22,

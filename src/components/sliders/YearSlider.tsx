@@ -69,7 +69,7 @@ const YearSlider: React.FC<Props> = ({
         }}
       />
 
-      <div style={{ marginTop: '0.5rem', width: '100%' }}>
+      <div style={{ marginTop: '-0.5rem', marginBottom: '1rem', width: '100%' }}>
         <YearMarkers minYear={minYear} maxYear={maxYear} />
       </div>
     </div>

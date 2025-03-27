@@ -1,6 +1,9 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
 
+//данный файл(YearMarkers) это просто набор маркеров годов,
+//которые выводятся под слайдером годов. Принимает minYear и maxYear,
+// используется в YearSlider как шкала под слайдером.
 type Props = {
   minYear: number
   maxYear: number

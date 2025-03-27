@@ -4,6 +4,23 @@ import RangeSliderBase from './RangeSliderBase'
 import YearMarkers from '../YearMarkers'
 import { formatMonthYearMultiLine } from '../../utils/formatDateLabel'
 
+
+//данный файл(YearSlider.tsx) это слайдер для выбора диапазона по годам.
+//внешне внутри себя использует RangeSliderBase, 
+// передавая нужные пропсы (мин-ый год, макс-ый год, 
+// текущий [startYear, endYear], callback при изменении).
+// Параллельно выводит снизу годовые метки (компонент YearMarkers),
+// чтобы наглядно видеть «шкалу» годов.
+// formatValueLabel тут подменяется на собственную логику: 
+// показывает либо начальную, либо конечную дату, 
+// которая вычисляется по selectedDates. 
+// (То есть на всплывающем лейбле/облачке слайдера будет строка вида "Март 2017" в 2 строки
+
+
+
+
+
+
 type Props = {
   minYear: number
   maxYear: number

@@ -2,6 +2,15 @@ import React from 'react'
 import { Box, Slider, Typography } from '@mui/material'
 import { valueLabelProps } from '../../styles/valueLabelStyles'
 
+//данный файл(RangeSliderBase.tsx.tsx) это базовый компонент «двухползункового» 
+// слайдера (Range Slider), обёртка над <Slider> из @mui/material.
+//Принимает кучу пропсов: заголовок title, текущее значение value (массив [minVal, maxVal]), 
+// onChange, мин-ое/макс-ое значение, шаг step(чтобы месяца были адаптивными),
+// функцию форматирования formatValueLabel(для отображения лейбла дат),
+// и опционально массив подписей labels. Если в пропсах есть labels, 
+// то этот же компонент под слайдером выводит их в виде списка.
+
+
 type Props = {
   title: string
   value: [number, number]

@@ -5,6 +5,10 @@ import YearSlider from './sliders/YearSlider'
 import MonthSlider from './sliders/MonthSlider'
 import { generateMonths, MonthItem } from '../utils/dateUtils'
 
+//данный файл(DateSliderContainer) хранить состояние выбранного диапазона дат. показывает переключатель "Все года" и "Месяца".
+//Содержит логику прокрутки колесиком мыши(мб стоит убрать), которая тоже переключает режим (если прокручиваем вниз — переходим на месяц, если наверх» — возвращаемся на год).
+//Сохраняет выбранный диапазон selectedRange в localStorage, чтобы при перезагрузке страницы состояние оставалось.
+
 const DateSliderContainer: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [mode, setMode] = useState<'year' | 'month'>('year')

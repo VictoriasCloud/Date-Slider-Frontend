@@ -18,7 +18,6 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, labels, mode
     const year = yearRange[0] + Math.floor(index / 12)
     const month = index % 12
     const dateObj = new Date(year, month, 1)
-    // общее форматирование в аппер кейс
     return formatMonthYearMultiLine(dateObj)
   }
 
@@ -27,9 +26,11 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, labels, mode
     let index = 0
     for (let year = yearRange[0]; year <= yearRange[1]; year++) {
       for (let month = 0; month < 12; month++) {
-        const label = dayjs(`${year}-${month + 1}-01`)
-          .locale('ru')
-          .format('MMM')
+        const label = month === 0 
+          ? year.toString() // Для января отображаем год
+          : dayjs(`${year}-${month + 1}-01`)
+              .locale('ru')
+              .format('MMM')
         months.push({
           label,
           year,
@@ -54,7 +55,6 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, labels, mode
       min={0}
       max={labels.length - 1}
       step={1}
-      // вместо string лучше возвратить React-элемент
       formatValueLabel={getDateLabel}
       labels={visibleLabels}
     />

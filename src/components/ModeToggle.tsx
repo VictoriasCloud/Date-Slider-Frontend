@@ -1,6 +1,13 @@
 import React from 'react'
 import { ToggleButton, ToggleButtonGroup } from '@mui/material'
 
+//данный файл(ModeToggle) это элемент реакт-переключатель 
+// (использует <ToggleButtonGroup> из @mui/material). 
+// Между двумя значениями: 'year' и 'month'. 
+// Когда нажимаем, вызывается onChange(newMode), меняя режим.
+
+
+
 type Mode = 'year' | 'month'
 
 type Props = {

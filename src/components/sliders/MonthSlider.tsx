@@ -43,26 +43,29 @@ const MonthSlider: React.FC<Props> = ({ yearRange, value, onChange, mode }) => {
     return formatMonthYearMultiLine(dateObj)
   }
 
-  // Логика выбора, какие подписи снизу показывать
+  // Логика выбора, какие меясца снизу показывать
   const visibleLabels = React.useMemo(() => {
     const totalYears = yearRange[1] - yearRange[0] + 1
-
-    if (mode === 'year') {
-      return allMonths.filter((m) => m.month === 0).map((m) => m.year.toString())
+  
+    if (totalYears <= 2) {
+      // Если диапазон 2 года или меньше, показываем все месяцва
+      return allMonths.map((m) =>
+        m.month === 0 ? m.year.toString() : m.label
+      )
     }
-    if (totalYears > 4) {
-      // Если диапазон больше 4 лет, показываем только январь и июль
+  
+    if (totalYears >= 3 && totalYears <= 7) {
+      // Если д-н от 3 до 7, показываем янв, апр, июль, окт
       return allMonths
-        .filter((m) => m.month === 0 || m.month === 6)
+        .filter((m) => m.month === 0 || m.month === 3 || m.month === 6 || m.month === 9)
         .map((m) => (m.month === 0 ? m.year.toString() : m.label))
     }
-
-    // Иначе (небольшой диапазон) показываем январь (год) + каждые 3 месяца
+  
+    // Если д-н больше 7, показываем только январь (год) и июль
     return allMonths
-      .filter((m) => m.month === 0 || m.month % 3 === 2)
+      .filter((m) => m.month === 0 || m.month === 6)
       .map((m) => (m.month === 0 ? m.year.toString() : m.label))
-  }, [allMonths, mode, yearRange])
-
+  }, [allMonths, yearRange])
   return (
     <div
       style={{

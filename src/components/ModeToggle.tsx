@@ -31,6 +31,7 @@ const ModeToggle: React.FC<Props> = ({ value, onChange }) => {
       sx={{
         border: 'none',
         outline: 'none',
+        marginTop: 6,
         '& .MuiToggleButton-root': {
             outline: 'none',
             whiteSpace: 'nowrap',//запрет на перенос текста

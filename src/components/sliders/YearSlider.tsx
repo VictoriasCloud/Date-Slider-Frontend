@@ -14,7 +14,7 @@ import { formatMonthYearMultiLine } from '../../utils/formatDateLabel'
 // formatValueLabel тут подменяется на собственную логику: 
 // показывает либо начальную, либо конечную дату, 
 // которая вычисляется по selectedDates. 
-// (То есть на всплывающем лейбле/облачке слайдера будет строка вида "Март 2017" в 2 строки
+// (Также на всплывающем лейбле/облачке слайдера будет строка вида "Март 2017" в 2 строки
 
 
 
@@ -24,7 +24,7 @@ import { formatMonthYearMultiLine } from '../../utils/formatDateLabel'
 type Props = {
   minYear: number
   maxYear: number
-  value: [number, number]          // [startYear, endYear]
+  value: [number, number] // [startYear, endYear]
   onChange: (range: [number, number]) => void
   selectedDates: [Date, Date]
 }
@@ -37,25 +37,42 @@ const YearSlider: React.FC<Props> = ({
   selectedDates,
 }) => {
   return (
-    <>
+    <div
+      style={{
+        // используем flex чтобы RangeSliderBase мог растянуться внутри
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+        // можем здесь ограничить minWidth / maxWidth теперь это ограничивает RangeSliderBase
+        marginBottom: '3rem',
+      }}
+    >
       <RangeSliderBase
-        title={`Годы от ${value[0]} до ${value[1]}`}
+        title={``}
         value={value}
         onChange={onChange}
         min={minYear}
         max={maxYear}
         step={1}
-        //для левого (index=0) показываем selectedDates[0], 
-        //для правого (index=1) — selectedDates[1].
-        //_val -  чтобы реакт не ругался 
         formatValueLabel={(_val: number, index: number) => {
-          const date = index === 0 ? selectedDates[0] : selectedDates[1]
-          return formatMonthYearMultiLine(date)
-        }}
 
+          const date = index === 0 ? selectedDates[0] : selectedDates[1]
+          return (
+            <span style={{ display: 'inline-block', textAlign: 'center' }}>
+              {formatMonthYearMultiLine(date)}
+            </span>
+          )
+        }}
+        sx={{
+          marginTop: '3rem',
+          marginBottom: '1rem',
+        }}
       />
-      <YearMarkers minYear={minYear} maxYear={maxYear} />
-    </>
+
+      <div style={{ marginTop: '0.5rem', width: '100%' }}>
+        <YearMarkers minYear={minYear} maxYear={maxYear} />
+      </div>
+    </div>
   )
 }
 
